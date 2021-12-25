@@ -79,7 +79,7 @@ const {
 } = require('./oxy');
 const request = require('request');
 var zrapi = require("zrapi");
-var creatorList = ['Melcanz'];
+var creatorList = ['Wahyu'];
 var fetch = require('node-fetch');
 var fs = require('fs');
 var creator = creatorList[Math.floor(Math.random() * creatorList.length)];
