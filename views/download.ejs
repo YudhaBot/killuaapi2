@@ -1,0 +1,248 @@
+<div class="container">
+	<div class="navbaro">
+		<div class="hamburger-menu">
+			<div class="line line-1 text-primary"></div>
+			<div class="line line-2"></div>
+			<div class="line line-3"></div>
+		</div>
+		<ul class="navo-list">
+			<li class="navo-item">
+				<a href="/downloadmenu" class="navo-link"><i class="fas fa-download"></i>
+					<em class="ml-2"></em>Downloader</a>
+			</li>
+			<li class="navo-item">
+				<a href="/randommenu" class="navo-link"><i class="fas fa-random"></i>
+					<em class="ml-2"></em>Random</a>
+			</li>
+			                <li class="navo-item">
+                    <a href="/animemenu" class="navo-link"><i class="fas fa-cat"></i>
+                        <em class="ml-2"></em>Anime Menu</a>
+                </li>
+			<li class="navo-item">
+				<a href="/makermenu" class="navo-link"><i class="far fa-image"></i>
+					<em class="ml-2"></em>Photooxy/Textpro</a>
+			</li>
+			<li class="navo-item">
+				<a href="/primbonmenu" class="navo-link"><i class="far fa-smile"></i>
+					<em class="ml-2"></em>Primbon</a>
+			</li>  
+			<li class="navo-item">
+				<a href="/othermenu" class="navo-link"><i class="fa fa-plus-circle"></i>
+					<em class="ml-2"></em>Other</a>
+			</li>
+                        <Li class="navo-item">
+                                <a href="/gamemenu"><i class="fas fa-gamepad"></i>
+                                    <em class="ml-2"></em>Mini Game</a>
+                        </Li>
+		</ul>
+	</div>
+</div> 
+
+<section class="py-5">
+
+</section>
+
+<section class="py-5 bg-dark">
+<div class="container">
+	<div class="row">
+		<div class="mx-auto text-center">
+			<h2 class="heading-black text-primary">Downloader Menu</h2>
+			<p class="text-muted lead" style="font-style: italic;">List Downloader</p>
+		</div>
+	</div>
+	<div class="row justify-content-center" style="font-size: 14px;">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Features</h4>
+				</div>
+				<div class="card-body pt-2 text-center">
+					<div style="overflow-x:auto !important;">
+						<table class="table mb-0" style="width: 100% !important;">
+							<thead class="text-primary">
+								<tr>
+									<th scope="col">API NAME</th>
+									<th scope="col">PARAMETER</th>
+									<th scope="col">STATUS</th>
+									<th scope="col">INFORMATION</th>
+									<th scope="col">ACTION</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Youtube MP3</td>
+									<td>url & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Get Audio From Youtube</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/ytmp3?url=https://www.youtube.com/watch?v=9JS47BC0WXc&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Youtube MP4</td>
+									<td>url & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Get Video From Youtube</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/ytmp4?url=https://www.youtube.com/watch?v=9JS47BC0WXc&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Youtube Search</td>
+									<td>query & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Searching Youtube</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/ytsearch?query=melcanz.io&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+		 						<tr>
+									<td>Tiktok Downloader</td>
+									<td>url & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Tiktok Downloader With WM</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/tiktokdl?url=https://vt.tiktok.com/ZSJE2ffo4&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Youtube Play Audio</td>
+									<td>query & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Get Audio From Youtube</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/ytplay?query=alone&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Mediafire Downloader</td>
+									<td>url & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Download MediaFire</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/mediafire?url=http://www.mediafire.com/file/js0gr2nozcmk9yg/example.txt/file&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+																<tr>
+									<td>Mediafire Downloader V2</td>
+									<td>url & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Download MediaFire</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/mediafire2?url=http://www.mediafire.com/file/js0gr2nozcmk9yg/example.txt/file&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Shortlink TinyUrl</td>
+									<td>url & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Simple For Link</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/tiny?url=xnxx.com&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Instagram Stalker</td>
+									<td>username & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Stalk Account Instagram</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/ig/stalk?username=melcanz.io&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Instagram Download</td>
+									<td>username & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>IG DOWNLOADER</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/ig/dl?url=https://www.instagram.com/p/CG4qI0aDoyP&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Spamcall</td>
+									<td>no & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Spamcall Biasa</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/spamcall?no=8956227290699&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Google Search</td>
+									<td>q & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Serching Google</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/google?q=Kapan%20indonesia%20Merdeka&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Kbbi Search</td>
+									<td>text & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Kbbi Search</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/kbbi?text=anjing&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Github Stalker</td>
+									<td>username & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Github Stalk</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/githubstalk?username=xmelll91&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section>

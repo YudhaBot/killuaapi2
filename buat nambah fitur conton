@@ -1,0 +1,1759 @@
+__path = process.cwd()
+var favicon = require('serve-favicon');
+var express = require('express');
+var db = require(__path + '/database/db');
+try {
+var zahirr = db.get("zahirr");
+} catch (e) {
+	console.log('')  
+}
+ 
+var creator = "Raku Senju"
+var secure = require('ssl-express-www');
+var cors = require('cors');
+var fetch = require('node-fetch');
+var cheerio = require('cheerio');
+var request = require('request');
+var zrapi = require("zrapi");
+var knights = require('knights-canvas');
+var dotenv = require("dotenv").config()
+var fs = require('fs');
+var TikTokScraper = require('tiktok-scraper');
+var { EmojiAPI } = require("emoji-api");
+var emoji = new EmojiAPI();
+var router  = express.Router();
+var { color, bgcolor } = require(__path + '/lib/color.js');
+var { fetchJson } = require(__path + '/lib/fetcher.js');
+var options = require(__path + '/lib/options.js');
+var {
+	Searchnabi,
+	Gempa
+} = require('./../lib');
+
+var {
+  pShadow,
+  pRomantic,
+  pSmoke,
+  pBurnPapper,
+  pNaruto,
+  pLoveMsg,
+  pMsgGrass,
+  pGlitch,
+  pDoubleHeart,
+  pCoffeCup,
+  pLoveText,
+  pButterfly
+} = require("./../lib/utils/photooxy");
+
+var {
+  igStalk,
+  igDownload
+} = require("./../lib/utils/ig");
+
+var {
+  ytDonlodMp3,
+  ytDonlodMp4,
+  ytPlayMp3,
+  ytPlayMp4,
+  ytSearch
+} = require("./../lib/utils/yt");
+
+var { 
+  Joox, 
+  FB, 
+  Tiktok
+} = require("./../lib/utils/downloader");
+
+var {
+  Cuaca, 
+  Lirik
+} = require('./../lib/utils/information');
+
+var {
+  Base, 
+  WPUser
+} = require('./../lib/utils/tools');
+
+var tebakGambar = require('./../lib/utils/tebakGambar');
+
+var cookie = process.env.COOCKIE
+/*
+* @Pesan Error
+*/
+loghandler = {
+    notparam: {
+        status: false,
+        creator: `${creator}`,
+        code: 406,
+        message: 'masukan parameter apikey'
+    },
+    noturl: {
+        status: false,
+        creator: `${creator}`,
+        code: 406,
+        message: 'masukan parameter url'
+    },
+    notquery: {
+        status: false,
+        creator: `${creator}`,
+        code: 406,
+        message: 'masukkan parameter query'
+        },
+    notkata: {
+        status: false,
+        creator: `${creator}`,
+        code: 406,
+        message: 'masukan parameter kata'
+    },
+    nottext: {
+        status: false,
+        creator: `${creator}`,
+        code: 406,
+        message: 'masukan parameter text'
+    },
+    nottext2: {
+        status: false,
+        creator: `${creator}`,
+        code: 406,
+        message: 'masukan parameter text2'
+    },
+    notnabi: {
+        status: false,
+        creator: `${creator}`,
+        code: 406,
+        message: 'masukan parameter nabi'
+    },
+    nottext3: {
+        status: false,
+        creator: `${creator}`,
+        code: 406,
+        message: 'masukan parameter text3'
+    },
+    nottheme: {
+        status: false,
+        creator: `${creator}`,
+        code: 406,
+        message: 'masukan parameter theme'
+    },
+    notusername: {
+        status: false,
+        creator: `${creator}`,
+        code: 406,
+        message: 'masukan parameter username'
+    },
+    notvalue: {
+        status: false,
+        creator: `${creator}`,
+        code: 406,
+        message: 'masukan parameter value'
+    },
+    invalidKey: {
+        status: false,
+        creator: `${creator}`,
+        code: 406,
+        message: 'apikey invalid'
+    },
+    invalidlink: {
+        status: false,
+        creator: `${creator}`,
+        message: 'error, mungkin link anda tidak valid.'
+    },
+    invalidkata: {
+        status: false,
+        creator: `${creator}`,
+        message: 'error, mungkin kata tidak ada dalam api.'
+    },
+    error: {
+        status: false,
+        creator: `${creator}`,
+        message: '404 ERROR'
+    }
+}
+
+/*
+Akhir Pesan Error
+*/
+
+router.use(favicon(__path + "/views/favicon.ico"));
+
+const listkey = ["RakuKeyTod","Yogikey2"];
+
+router.post("/addapikey", async (req, res, next) => {
+  const key = req.query.key;
+  if(listkey.includes(key)) {
+    res.json({
+      message: 'apikey sudah terdaftar'
+    });
+  } else {
+    listkey.push(key);
+    res.json({
+      message: `berhasil mendaftarkan ${key} Kedatabase apikey`
+    });
+  }
+});
+
+// delete apikey
+
+router.delete("/apikey", async(req, res, next) => {
+	const key = req.query.delete;
+	if(listkey.includes(key)) {
+		res.json({
+			message: 'apikey tidak ada sebelumnya'
+			})
+			} else {
+	listkey.splice(key, 1)
+	res.json({
+		message: 'apikey berhasil dihapus' 
+});
+ }
+});
+
+router.get('/music/joox', async(req, res, next) => {
+  const query = req.query.query;
+  const apikey = req.query.apikey;
+  
+  if(!query) return res.json(loghandler.notquery)
+  if(!apikey) return res.json(loghandler.notparam)
+  
+  if(listkey.includes(apikey)){
+  Joox(query)
+  .then((result) => {
+  res.json(result)
+    res.json(result)
+  });
+  } else {
+    res.json(loghandler.invalidKey)
+  }
+});
+
+router.get('/bot/rank', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            pp = req.query.pp,
+            nama = req.query.nama,
+            bg = req.query.bg,
+            needxp = req.query.needxp,
+            currxp = req.query.currxp,
+            level = req.query.level,
+            rank = req.query.rank   
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!pp) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter pp"})
+    if (!nama) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter nama"})
+    if (!bg) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter bg"})
+    if (!needxp) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter needxp"})
+    if (!currxp) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter currxp"})
+    if (!level) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter level"})
+    if (!rank) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter rank"})
+    
+var image = await new knights.Rank()
+    .setAvatar(`${pp}`) 
+    .setUsername(`${nama}`) 
+    .setBg(`${bg}`)
+    .setNeedxp(`${needxp}`) 
+    .setCurrxp(`${currxp}`) 
+    .setLevel(`${level}`) 
+    .setRank(`${rank}`) 
+    .toAttachment();
+  data = image.toBuffer();
+  await fs.writeFileSync(__path +'/tmp/brank.png', data)
+  res.sendFile(__path +'/tmp/brank.png')
+  .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/bot/bag', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            bg = req.query.bg,
+            stone = req.query.stone,
+            coal = req.query.coal,
+            wood = req.query.wood,
+            core = req.query.core,
+            iore = req.query.iore,
+            gore = req.query.gore,
+            cingot = req.query.cingot,
+            iingot = req.query.iingot,
+            gingot = req.query.gingot,
+            diamond = req.query.diamond,
+            ruby = req.query.ruby,
+            uranium = req.query.uranium,
+            jadite = req.query.jadite,
+            leather = req.query.leather,
+            meat = req.query.meat,
+            fish = req.query.fish
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!bg) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter bg"})
+var image = await new knights.Bag()
+    .setBackground(`${bg}`)
+	.setStone(`${stone}`)
+	.setCoal(`${coal}`)
+	.setWood(`${wood}`)
+	.setCore(`${core}`)
+	.setIore(`${iore}`)
+	.setGore(`${gore}`)
+	.setCingot(`${cingot}`)
+	.setIingot(`${iingot}`)
+	.setGingot(`${gingot}`)
+	.setDiamond(`${diamond}`)
+	.setRuby(`${ruby}`)
+	.setUranium(`${uranium}`)
+	.setJadite(`${jadite}`)
+	.setLeather(`${leather}`)
+	.setMeat(`${meat}`)
+	.setFish(`${fish}`)
+  data = image.toBuffer();
+  await fs.writeFileSync(__path +'/tmp/bag.png', data)
+  res.sendFile(__path +'/tmp/bag.png')
+  .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/bot/welkom', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            nama = req.query.nama,
+            gc = req.query.gc,
+            ppgc = req.query.ppgc,
+            member = req.query.member,
+            pp = req.query.pp,
+            bg = req.query.bg            
+
+
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!nama) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter nama"})
+    if (!gc) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter gc"})
+    if (!member) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter member"})
+    if (!ppgc) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter ppgc"})
+    if (!pp) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter pp"})
+    if (!bg) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter bg"})
+    
+    
+var image = await new knights.Welcome()
+    .setUsername(`${nama}`)
+    .setGuildName(`${gc}`)
+    .setGuildIcon(`${ppgc}`)
+    .setMemberCount(`${member}`)
+    .setAvatar(`${pp}`)
+    .setBackground(`${bg}`)
+    .toAttachment();
+  
+
+  data = image.toBuffer();
+  await fs.writeFileSync(__path +'/tmp/sewelcome.png', data)
+  res.sendFile(__path +'/tmp/sewelcome.png')
+  .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/bot/goodbye', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            nama = req.query.nama,
+            gc = req.query.gc,
+            ppgc = req.query.ppgc,
+            member = req.query.member,
+            pp = req.query.pp,
+            bg = req.query.bg            
+
+
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!nama) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter nama"})
+    if (!gc) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter gc"})
+    if (!member) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter member"})
+    if (!ppgc) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter ppgc"})
+    if (!pp) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter pp"})
+    if (!bg) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter bg"})
+    
+    
+var image = await new knights.Goodbye()
+    .setUsername(`${nama}`)
+    .setGuildName(`${gc}`)
+    .setGuildIcon(`${ppgc}`)
+    .setMemberCount(`${member}`)
+    .setAvatar(`${pp}`)
+    .setBackground(`${bg}`)
+    .toAttachment();
+  
+
+  data = image.toBuffer();
+  await fs.writeFileSync(__path +'/tmp/segoodbye.png', data)
+  res.sendFile(__path +'/tmp/segoodbye.png')
+  .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+
+router.get('/bot/levelup', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            pp = req.query.pp
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!pp) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter pp"})       
+var image = await new knights.Up()
+    .setAvatar(`${pp}`)
+    .toAttachment();
+  data = image.toBuffer();
+  await fs.writeFileSync(__path +'/tmp/sup.png', data)
+  res.sendFile(__path +'/tmp/sup.png')
+  .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/bot/sponbob', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            pp = req.query.pp
+         
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!pp) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter pp"})
+    
+var image = await new knights.Burn()
+    .setAvatar(`${pp}`)
+    .toAttachment();
+  
+  data = image.toBuffer();
+  await fs.writeFileSync(__path +'/tmp/spongebob.png', data)
+  res.sendFile(__path +'/tmp/spongebob.png')
+  .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/bot/petrik', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            pp = req.query.pp
+         
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!pp) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter pp"})
+    
+var image = await new kbeta.Patrick()
+    .setAvatar(`${pp}`)
+    .toAttachment();
+  
+  data = image.toBuffer();
+  await fs.writeFileSync(__path +'/tmp/patrick.png', data)
+  res.sendFile(__path +'/tmp/patrick.png')
+  .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/bot/welkom2', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            nama = req.query.nama,
+            gc = req.query.gc,
+            member = req.query.member,
+            pp = req.query.pp,
+            bg = req.query.bg            
+
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!nama) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter nama"})
+    if (!gc) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter gc"})
+    if (!member) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter member"})
+    if (!pp) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter pp"})
+    if (!bg) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter bg"})
+       
+var image = await new knights.Welcome2()
+    .setAvatar(`${pp}`)
+    .setUsername(`${nama}`) 
+    .setBg(`${bg}`) 
+    .setGroupname(`${gc}`) 
+    .setMember(`${member}`) 
+    .toAttachment();
+    
+  data = image.toBuffer();
+  await fs.writeFileSync(__path +'/tmp/sewelkom2.png', data)
+  res.sendFile(__path +'/tmp/sewelkom2.png')
+  .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/bot/gfx1', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            nama = req.query.nama
+
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!nama) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter nama"})
+   
+var image = await new knights.Gfx1()
+    .setName(`${nama}`) 
+    .toAttachment();
+    
+  data = image.toBuffer();
+  await fs.writeFileSync(__path +'/tmp/gfx1.png', data)
+  res.sendFile(__path +'/tmp/gfx1.png')
+  .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/bot/gfx2', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            nama = req.query.nama
+
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!nama) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter nama"})
+   
+var image = await new knights.Gfx2()
+    .setName(`${nama}`) 
+    .toAttachment();
+    
+  data = image.toBuffer();
+  await fs.writeFileSync(__path +'/tmp/gfx2.png', data)
+  res.sendFile(__path +'/tmp/gfx2.png')
+  .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/bot/gfx3', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            text1 = req.query.text1,
+            text2 = req.query.text2
+
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!text1) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter text1"})
+    if (!text2) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter text2"})
+   
+var image = await new knights.Gfx3()
+    .setText1(`${text1}`) 
+    .setText2(`${text2}`)
+    .toAttachment();
+    
+  data = image.toBuffer();
+  await fs.writeFileSync(__path +'/tmp/gfx3.png', data)
+  res.sendFile(__path +'/tmp/gfx3.png')
+  .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/bot/gfx4', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            text1 = req.query.text1,
+            text2 = req.query.text2
+
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!text1) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter text1"})
+    if (!text2) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter text2"})
+   
+var image = await new knights.Gfx4()
+    .setText1(`${text1}`) 
+    .setText2(`${text2}`)
+    .toAttachment();
+    
+  data = image.toBuffer();
+  await fs.writeFileSync(__path +'/tmp/gfx4.png', data)
+  res.sendFile(__path +'/tmp/gfx4.png')
+  .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/bot/gfx5', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            text = req.query.text
+
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!text) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter text"})
+   
+var image = await new knights.Gfx5()
+    .setText1(`${text}`) 
+    .toAttachment();
+    
+  data = image.toBuffer();
+  await fs.writeFileSync(__path +'/tmp/gfx4.png', data)
+  res.sendFile(__path +'/tmp/gfx4.png')
+  .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/bot/gura', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            nama = req.query.nama
+
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!nama) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter nama"})
+   
+var image = await new knights.Gura()
+    .setName(`${nama}`) 
+    .toAttachment();
+    
+  data = image.toBuffer();
+  await fs.writeFileSync(__path +'/tmp/Gura.png', data)
+  res.sendFile(__path +'/tmp/Gura.png')
+  .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/bot/goodbye2', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            nama = req.query.nama,
+            member = req.query.member,
+            pp = req.query.pp,
+            bg = req.query.bg            
+
+  if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!nama) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter nama"})
+    if (!member) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter member"})
+    if (!pp) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter pp"})
+    if (!bg) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter bg"})
+       
+var image = await new knights.Goodbye2()
+    .setAvatar(`${pp}`)
+    .setUsername(`${nama}`) 
+    .setBg(`${bg}`) 
+    .setMember(`${member}`) 
+    .toAttachment();
+    
+  data = image.toBuffer();
+  await fs.writeFileSync(__path +'/tmp/segoodbye2.png', data)
+  res.sendFile(__path +'/tmp/segoodbye2.png')
+  .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/wolverine', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            image = req.query.image
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!image) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter image"})
+
+       let hasil = `https://vacefron.nl/api/wolverine?user=${image}`
+      data = await fetch(hasil).then(v => v.buffer())
+        await fs.writeFileSync(__path +'/tmp/wolverine.png', data)
+  res.sendFile(__path+'/tmp/wolverine.png')
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/tools/map', async (req, res, next) => {
+
+        var Apikey = req.query.apikey,
+            kota = req.query.kota
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!kota) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter kota"})
+
+       fetch(encodeURI(`https://caliph71.xyz/map?apikey=beta&kota=${kota}`)) 
+       .then(response => response.json())
+        .then(data => {
+        var result = data;
+          res.json({
+          author : 'Raku', 
+          result
+         })
+       });
+} else {
+res.json(loghandler.invalidKey)
+}
+});
+
+router.get('/mediafire', async (req, res, next) => {
+
+        var Apikey = req.query.apikey,
+            url = req.query.url
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!url) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter url"})
+
+       fetch(encodeURI(`https://api.zeks.xyz/api/mediafire?apikey=apivinz&url=${url}`)) 
+       .then(response => response.json())
+        .then(data => {
+        var result = data;
+          res.json({
+          author : 'Raku', 
+          result
+         })
+       });
+} else {
+res.json(loghandler.invalidKey)
+}
+});
+
+router.get('/genshin', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+	if(!search) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter search"})
+       fetch(encodeURI(`https://rawcdn.githack.com/L-M0z/Api-raw-v/0bfb230d51759cd3df1db9a107c8493eb4d1cf9c/Genshinimpact/${search}.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+             res.json({
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+router.get('/stiker', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            query = req.query.query
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!query) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter query"})
+
+       Ra.stickerSearch(query)
+        .then(data => {
+        var result = data;
+             res.json({
+                 status : true,
+                 creator : `${creator}`,
+                 result,
+                 message : `Jangan Lupa Subscribe ZEROBOT`
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/comik', async (req, res, next) => {
+        var apikeyInput = req.query.apikey,
+            search = req.query.search
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!search) return res.json({ status : false, creator : `${creator}`, message : "Masukan parameter username"})
+
+       fetch(encodeURI(`https://api.zeks.xyz/api/bacakomik?apikey=apivinz&q=${search}`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+             res.json({
+             	author: 'Raku',
+                 result
+            })
+         })
+         .catch(e => {
+         	res.sendFile(error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/playstore', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            namaapk = req.query.namaapk
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!namaapk) return res.json({ status : false, creator : `${creator}`, message : "Masukan parameter nama apk"})
+
+       fetch(encodeURI(`https://api.zeks.xyz/api/sgplay?apikey=apivinz&q=${namaapk}`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+             res.json({
+             	author: 'Raku',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.sendFile(error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/happymod', async (req, res, next) => {
+        var Apikey = req.query.apikey,
+            namaapk = req.query.namaapk
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+    if (!namaapk) return res.json({ status : false, creator : `${creator}`, message : "Masukan parameter nama apk"})
+
+       fetch(encodeURI(`https://api.zeks.xyz/api/happymod?apikey=apivinz&q=${namaapk}`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+             res.json({
+             	author: 'Raku',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.sendFile(error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/ntr', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+       fetch(encodeURI(`https://linz-api.herokuapp.com/api/anime-pic?genre=netorare`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+             res.json({
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/maid', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+       fetch(encodeURI(`https://linz-api.herokuapp.com/api/anime-pic?genre=maid`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+             res.json({
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/uglybastard', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+       fetch(encodeURI(`https://linz-api.herokuapp.com/api/anime-pic?genre=uglybastard`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+             res.json({
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/foxgirl', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+       fetch(encodeURI(`https://linz-api.herokuapp.com/api/anime-pic?genre=foxgirl`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+             res.json({
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/ass', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/ass.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/ahegao', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/ahegao.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/bdsm', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/bdsm.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+}) 
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/blowjob', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/blowjob.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/cuckold', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/cuckold.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/cum', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/cum.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/ero', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/ero.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/femdom', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/femdom.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/foot', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/foot.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/gangbang', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/gangbang.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/glasses', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/glasses.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/hentai', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/hentai.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/hentaigif', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/hnt_gifs.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/jahy', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/jahy.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/masturbation', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/masturbation.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/nsfwNeko', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/nsfwNeko.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/orgy', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/orgy.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/panties', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/panties.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/pussy', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/pussy.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/thighs', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/thighs.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/nsfw/yuri', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/jepribarus/JB-Api/main/nsfw/yuri.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/cewe/japan', async (req, res, next) => {
+       var Apikey = req.query.apikey
+       
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+	
+       fetch(encodeURI(`https://raw.githubusercontent.com/RIFKIBOTXofc/Asupan/main/cecan/japan.json`))
+          .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	author: 'Raku',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/cewe/vietnam', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+	
+       fetch(encodeURI(`https://raw.githubusercontent.com/lofc/Asupan/main/cecan/vietnam.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	author: 'Raku',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+router.get('/cewe/thailand', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+       fetch(encodeURI(`https://raw.githubusercontent.com/zeeoneofc/Asupan/main/cecan/thailand.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	author: 'Raku',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+router.get('/cewe/china', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+       fetch(encodeURI(`https://raw.githubusercontent.com/zeeoneofc/Asupan/main/cecan/china.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	author: 'Raku',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+router.get('/cewe/indonesia', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+       fetch(encodeURI(`https://raw.githubusercontent.com/zeeoneofc/Asupan/main/cecan/indonesia.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	author: 'Raku',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+router.get('/cewe/korea', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+       fetch(encodeURI(`https://raw.githubusercontent.com/zeeoneofc/Asupan/main/cecan/korea.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	author: 'Raku',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+router.get('/cewe/malaysia', async (req, res, next) => {
+        var Apikey = req.query.apikey
+            
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+       fetch(encodeURI(`https://raw.githubusercontent.com/zeeoneofc/Asupan/main/cecan/malaysia.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	author: 'Raku',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+res.json(loghandler.invalidKey)
+}
+})
+
+router.get('/music/spotify', async(req, res, next) => {
+  const apikey = req.query.apikey;
+  const query = req.query.query;
+  if(!apikey) return res.json(loghandler.notparam)
+  if(!query) return res.json(loghandler.notquery)
+  
+  if(listkey.includes(apikey)){
+  fetch(encodeURI(`https://alpin-api-2021.herokuapp.com/api/spotify?apikey=alpin1&q=${query}`))
+  .then(response => response.json())
+        .then(hasil => {
+
+        var result = hasil.data;
+             res.json({
+                 status : true,
+                 creator : `${creator}`,
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+} else {
+  res.json(loghandler.invalidKey)
+}
+})
+router.get('/download/ytmp3', async(req, res, next) => {
+  const url = req.query.url;
+  const apikey = req.query.apikey;
+  if(!url) return res.json(loghandler.noturl)
+  if(!apikey) return res.json(loghandler.notparam)
+  if(listkey.includes(apikey)){
+  ytDonlodMp3(url)
+    .then((result) => {
+      res.json({
+        status: true,
+        code: 200,
+        creator: `${creator}`,
+        result
+      })
+    })
+    .catch((error) => {
+      console.log(error)
+      res.json(error)
+    });
+    } else {
+    	res.json(loghandler.invalidKey)
+    }
+});
+
+router.get('/download/ytmp4', async(req, res, next) => {
+  const url = req.query.url;
+  const apikey = req.query.apikey;
+
+  if(!url) return res.json(loghandler.noturl)
+  if(!apikey) return res.json(loghandler.notparam)
+  if(listkey.includes(apikey)){
+  ytDonlodMp4(url)
+    .then((result) => {
+      res.json({
+        status: true,
+        code: 200,
+        creator: `${creator}`,
+        result
+      })
+    })
+    .catch((error) => {
+      res.json(error)
+    });
+    } else {
+    	res.json(loghandler.invalidKey)
+    }
+});
+
+router.get("/yt/playmp3", async(req, res, next) => {
+    const query = req.query.query;
+    const apikey = req.query.apikey;
+    
+    if(!query) return res.json(loghandler.notquery)
+    if(!apikey) return res.json(loghandler.notparam)
+    if(listkey.includes(apikey)){
+    ytPlayMp3(query)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((error) => {
+            res.json(error);
+        });
+      } else {
+      res.json(loghandler.invalidKey)
+      }
+});
+
+router.get("/yt/playmp4", async(req, res, next) => {
+
+    const query = req.query.query;
+
+    const apikey = req.query.apikey;
+    
+    if(!query) return res.json(loghandler.notquery)
+    if(!apikey) return res.json(loghandler.notparam)
+    if(listkey.includes(apikey)){
+    ytPlayMp4(query)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((error) => {
+            res.json(error);
+        });
+      } else {
+      res.json(loghandler.invalidKey)
+      }
+});
+
+
+router.get('/yt/search', async(req, res, next) => {
+    const query = req.query.query;
+    const apikey = req.query.apikey;
+    
+    if(!query) return res.json(loghandler.notquery)
+    if(!apikey) return res.json(loghandler.notparam)
+    if(listkey.includes(apikey)){
+    ytSearch(query)
+        .then((result) => {
+            res.json({
+              status: true,
+              code: 200,
+              creator: `${creator}`,
+              result
+            })
+        })
+        .catch((error) => {
+            res.json(error);
+        });
+      } else {
+     res.json(loghandler.invalidKey)
+     }
+});
+
+router.get('/download/tiktok', async (req, res, next) => {
+    var Apikey = req.query.apikey,
+        url = req.query.url
+
+	if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){
+     if (!url) return res.json(loghandler.noturl)
+     Tiktok(url)
+     .then((data) => {

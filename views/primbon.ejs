@@ -1,0 +1,128 @@
+<div class="container">
+	<div class="navbaro">
+		<div class="hamburger-menu">
+			<div class="line line-1 text-primary"></div>
+			<div class="line line-2"></div>
+			<div class="line line-3"></div>
+		</div>
+		<ul class="navo-list">
+			<li class="navo-item">
+				<a href="/downloadmenu" class="navo-link"><i class="fas fa-download"></i>
+					<em class="ml-2"></em>Downloader</a>
+			</li>
+			<li class="navo-item">
+				<a href="/randommenu" class="navo-link"><i class="fas fa-random"></i>
+					<em class="ml-2"></em>Random</a>
+			</li>
+			                <li class="navo-item">
+                    <a href="/animemenu" class="navo-link"><i class="fas fa-cat"></i>
+                        <em class="ml-2"></em>Anime Menu</a>
+                </li>
+			<li class="navo-item">
+				<a href="/makermenu" class="navo-link"><i class="far fa-image"></i>
+					<em class="ml-2"></em>Photooxy/Textpro</a>
+			</li>
+			<li class="navo-item">
+				<a href="/primbonmenu" class="navo-link"><i class="far fa-smile"></i>
+					<em class="ml-2"></em>Primbon</a>
+			</li>  
+			<li class="navo-item">
+				<a href="/othermenu" class="navo-link"><i class="fa fa-plus-circle"></i>
+					<em class="ml-2"></em>Other</a>
+			</li>
+                        <Li class="navo-item">
+                                <a href="/gamemenu"><i class="fas fa-gamepad"></i>
+                                    <em class="ml-2"></em>Mini Game</a>
+                        </Li>
+		</ul>
+	</div>
+</div> 
+
+<section class="py-5">
+
+</section>
+
+<section class="py-5 bg-dark">
+<div class="container">
+	<div class="row">
+		<div class="mx-auto text-center">
+			<h2 class="heading-black text-primary">Primbon Menu</h2>
+			<p class="text-muted lead" style="font-style: italic;">List Primbon</p>
+		</div>
+	</div>
+	<div class="row justify-content-center" style="font-size: 14px;">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Features</h4>
+				</div>
+				<div class="card-body pt-2 text-center">
+					<div style="overflow-x:auto !important;">
+						<table class="table mb-0" style="width: 100% !important;">
+							<thead class="text-primary">
+								<tr>
+									<th scope="col">API NAME</th>
+									<th scope="col">PARAMETER</th>
+									<th scope="col">STATUS</th>
+									<th scope="col">INFORMATION</th>
+									<th scope="col">ACTION</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Arti Nama</td>
+									<td>nama & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Arti Namamu</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/artinama?nama=Melcanz&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Arti Mimpi</td>
+									<td>mimpi & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Arti Mimpimu</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="api/artimimpi?mimpi=digigit%20ular&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Ramalan Jodoh</td>
+									<td>nama1, nama2 & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Ramal Jodohmu Disini</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="api/jodoh?nama=melcanz&nama2=Helena&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Nomor Hoki</td>
+									<td>nomor & apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Cek Kehokian Nomermu</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="api/nomorhoki?no=089525340368&apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section>

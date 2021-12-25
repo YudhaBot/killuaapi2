@@ -1,0 +1,225 @@
+<div class="container">
+	<div class="navbaro">
+		<div class="hamburger-menu">
+			<div class="line line-1 text-primary"></div>
+			<div class="line line-2"></div>
+			<div class="line line-3"></div>
+		</div>
+		<ul class="navo-list">
+			<li class="navo-item">
+				<a href="/downloadmenu" class="navo-link"><i class="fas fa-download"></i>
+					<em class="ml-2"></em>Downloader</a>
+			</li>
+			<li class="navo-item">
+				<a href="/randommenu" class="navo-link"><i class="fas fa-random"></i>
+					<em class="ml-2"></em>Random</a>
+			</li>
+			                <li class="navo-item">
+                    <a href="/animemenu" class="navo-link"><i class="fas fa-cat"></i>
+                        <em class="ml-2"></em>Anime Menu</a>
+                </li>
+			<li class="navo-item">
+				<a href="/makermenu" class="navo-link"><i class="far fa-image"></i>
+					<em class="ml-2"></em>Photooxy/Textpro</a>
+			</li>
+			<li class="navo-item">
+				<a href="/primbonmenu" class="navo-link"><i class="far fa-smile"></i>
+					<em class="ml-2"></em>Primbon</a>
+			</li>  
+			<li class="navo-item">
+				<a href="/othermenu" class="navo-link"><i class="fa fa-plus-circle"></i>
+					<em class="ml-2"></em>Other</a>
+			</li>
+                        <Li class="navo-item">
+                                <a href="/gamemenu"><i class="fas fa-gamepad"></i>
+                                    <em class="ml-2"></em>Mini Game</a>
+                        </Li>
+		</ul>
+	</div>
+</div> 
+
+<section class="py-5">
+
+</section>
+
+<section class="py-5 bg-dark">
+<div class="container">
+	<div class="row">
+		<div class="mx-auto text-center">
+			<h2 class="heading-black text-primary">Random Menu</h2>
+			<p class="text-muted lead" style="font-style: italic;">List Random</p>
+		</div>
+	</div>
+	<div class="row justify-content-center" style="font-size: 14px;">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Features</h4>
+				</div>
+				<div class="card-body pt-2 text-center">
+					<div style="overflow-x:auto !important;">
+						<table class="table mb-0" style="width: 100% !important;">
+							<thead class="text-primary">
+								<tr>
+									<th scope="col">API NAME</th>
+									<th scope="col">PARAMETER</th>
+									<th scope="col">STATUS</th>
+									<th scope="col">INFORMATION</th>
+									<th scope="col">ACTION</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Quotes</td>
+									<td>apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Random Quotes</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/quotes?apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Bijak</td>
+									<td>apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Random Kata Bijak</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/bijak?apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Fakta</td>
+									<td>apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Random Fakta</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/fakta?apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Asupan</td>
+									<td>apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Random PTL</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/asupan?apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Megumin</td>
+									<td>apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Random Pict Megumin</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/megumin?apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Darkjokes</td>
+									<td>apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Random Pict DarkJokes</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/darkjokes?apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+																<tr>
+									<td>Aesthetic</td>
+									<td>apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Random Pict Aesthetic</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/aesthetic?apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Husbu</td>
+									<td>apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Random Pict Husbu</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/husbu?apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Poke</td>
+									<td>apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Random Gif Anime Poke</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/poke?apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+								<tr>
+									<td>Waifu</td>
+									<td>apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Random Pict Waifu</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/waifu?apikey=<%= apikey %>" target="_blank">
+											Try</a>
+									</td>
+								</tr>
+									<tr>
+									<td>Cerpen</td>
+									<td>apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Random Cerpen</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/cerpen?apikey=<%= apikey %>" target="_blank">
+									                 Try</a>
+									</td>
+								</tr>
+									</tr>
+									<tr>
+									<td>Cersex</td>
+									<td>apikey</td>
+									<td><div class="text-primary">
+										<i class="fas fa-check fa-sm"></i>
+									</div></td>
+									<td>Random Cersex</td>
+									<td>
+										<a class="btn btn-primary btn-sm" href="/api/cersex?apikey=<%= apikey %>" target="_blank">
+									                 Try</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section>

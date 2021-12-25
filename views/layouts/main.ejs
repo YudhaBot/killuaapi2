@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melcanz Rest Api'S</title>
+    <meta name="description"content="Rest API"/>
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+
+    <link href="https://rsms.me/inter/inter-ui.css" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <link rel="stylesheet" href="/css/default.css" id="theme-color">
+</head>
+<body id="top">
+
+    <%- include('nav')  %> 
+
+    <%- body %> 
+
+</div>
+<div class="col-12 text-muted text-center">
+    <a href="https://github.com/xmell91" target="_blank">2021 Melcanz - All Rights Reserved</a>
+</div>
+</footer>
+
+<div class="scroll-top">
+<i class="fa fa-angle-up" aria-hidden="true"></i>
+</div>
+
+<section>
+<div class="container">
+<div class="switcher-wrap">
+    <div class="switcher-trigger">
+        <span class="fa fa-gear"></span>
+    </div>
+    <div class="color-switcher">
+        <h6>Color Switcher</h6>
+        <ul class="mt-3 clearfix">
+            <li class="bg-teal active" data-color="default" title="Default Teal"></li>
+            <li class="bg-purple" data-color="purple" title="Purple"></li>
+            <li class="bg-blue" data-color="blue" title="Blue"></li>
+            <li class="bg-red" data-color="red" title="Red"></li>
+            <li class="bg-green" data-color="green" title="Green"></li>
+            <li class="bg-indigo" data-color="indigo" title="Indigo"></li>
+            <li class="bg-orange" data-color="orange" title="Orange"></li>
+            <li class="bg-cyan" data-color="cyan" title="Cyan"></li>
+            <li class="bg-yellow" data-color="yellow" title="Yellow"></li>
+            <li class="bg-pink" data-color="pink" title="Pink"></li>
+        </ul>
+        <p>You Can Switch Theme Color</p>
+    </div>
+</div>
+</div>
+</section>
+<script src="/script.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.7.3/feather.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script src="/js/scripts.js"></script>
+<script>
+    function getvisitor(){
+          var xhr = new XMLHttpRequest();
+          var url = 'https://api.countapi.xyz/hit/api-alphabot.herokuapp.com/visits';
+          xhr.onloadend = function(){
+         data = JSON.parse(this.responseText);
+document.getElementById("visitor").textContent = data.value
+          };
+          xhr.open("GET", url, true);
+          xhr.send();
+}
+</script>
+</body>
+</html>

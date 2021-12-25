@@ -1,0 +1,43 @@
+<section class="py-7 py-md-0 bg-hero" id="home">
+    <div class="container">
+        <div class="row vh-md-100">
+            <div class="col-md-8 col-sm-10 col-12 mx-auto my-auto text-center">
+        <p> </p>
+        <center>
+            <%- include('../layouts/msg')  %> 
+            <%- include('../layouts/errors')  %> 
+        </center>
+        <h1 class="intro-header">Premium Dashboard</h1>
+        <a class="btn btn-primary mb-2  d-inline-flex flex-row align-items-center" 
+                        href="/premium/add">Add Premium<em class="ml-2"></em><i class="fas fa-user-plus"></i>
+                    </a>
+        <a class="btn btn-primary mb-2  d-inline-flex flex-row align-items-center" 
+                       href="/premium/delete">Delete Premium<em class="ml-2"></em><i class="fas fa-user-minus"></i>
+                </a>
+                <a class="btn btn-primary mb-2  d-inline-flex flex-row align-items-center" 
+                       href="/premium/limit">Reset One Limit<em class="ml-2"></em><i class="fas fa-refresh"></i>
+                </a>
+    </div>
+    <div class="container">
+        <center>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-title text-center text-primary" style="font-size: 20px;">RESET ALL LIMIT</p>
+                        <form method="POST" action="/premium/resetall">
+                        <!-- <form id="forms"> -->
+                            <div class="form-group">
+                                <input style="font-family:Arial, FontAwesome" name="token" id="text" type="text" class="form-control" id="nameInput" placeholder="&#xf084;  Token" required>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-sign-in-alt"></i><em class="ml-2"></em>Reset All Limit</button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </center> 
+    </div>
+</section>
+
+</section> 
+
