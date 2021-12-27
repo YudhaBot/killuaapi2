@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/', isAuthenticated, async  (req, res) => {
     let { username } = req.user
-    if( username !=='ariaptra9')return res.redirect('/docs')
+    if( username !=='Bener')return res.redirect('/docs')
     res.render('premium/index', {
         layout: 'layouts/main'
     })
