@@ -1,8 +1,8 @@
 <p align="center">
-<img src="https://avatars.githubusercontent.com/xmell91" width="150" height="150"/>
+<img src="https://avatars.githubusercontent.com/Wahyubotz78" width="150" height="150"/>
 </p>
 <h1 align='center'>Hallo bang👋 :wave:</h1>
-<p align='center'>Hi There, I'm amel</p>
+<p align='center'>Hi There, I'm Wahyu</p>
 <p align='center'>
 <a href="https://instagram.com/melcanz.io"><img height="30" src="https://storage.caliph71.xyz/img/instagram.svg"></a>&nbsp;&nbsp;
 </p>
@@ -14,7 +14,7 @@
 
 <h3 align="left">Contact with me:</h3>
 <p align="left"><a href="https://instagram.com/melcanz.io" target="blank"><img align="center" src="https://storage.caliph71.xyz/img/instagram.svg" height="30" width="30" /></a>
-<p align="left"><a href="https://Wa.me/6287755080455" target="blank"><img align="center" src="https://storage.caliph71.xyz/img/whatsapp.svg" height="30" width="30" /></a>
+<p align="left"><a href="https://Wa.me/6283890284607" target="blank"><img align="center" src="https://storage.caliph71.xyz/img/whatsapp.svg" height="30" width="30" /></a>
 </p>
 
 <h3 align="left">Github Stats</h3>
