@@ -1,7 +1,7 @@
 const { User, Utils } = require('./model');
 const toMs = require('ms');
 const { limitCount, limitPremium } = require('../lib/settings');
-const tokens = 'helena'
+const tokens = 'wahyuganz'
 module.exports.tokens = tokens
 
     async function addPremium(username, customKey, expired) {
