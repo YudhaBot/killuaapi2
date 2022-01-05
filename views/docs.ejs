@@ -1,45 +1,5 @@
 <section class="py-5"></section>
-<style type="text/css">
-  .loading {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    position: fixed
-  }
-  .animasi {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    color: #fff;
-    display: flex;
-    font-size: 5vh;
-    font-weight: bolder;
-    align-items: center;
-    font-family: monospace;
-    justify-content: center;
-    background-color: #000000
-  }
-  .animasi span {
-    animation: pulse 0.5s alternate infinite ease-in-out;
-  }
-  .animasi span:nth-child(odd) {
-    animation-delay: 0.1s;
-  }
-  @keyframes pulse {
-    to {
-      transform: scale(0.9);
-      opacity: 2;
-    }
-  }
-  </style>
-<div class="loading">
-<div class="animasi">
-<span><img src="/public/images/loding.svg" alt="Sabar cok, lagi loading" /></span>
-</div>
-</div>
+
 <div class="col-sm-12">
 <div class="container-fluid" id="container-wrapper">
   <div class="d-sm-flex align-items-center justify-content-between mb-6">
@@ -372,11 +332,7 @@ website ini.
                 </a>
             </div>
         </div>
-  <script type="text/javascript">
-  $(document).ready(function () {
-    $(".loading").delay(1000).fadeOut(300,"linear");
-  });
-  </script>
+  
   <script>
 		$.getJSON("https://api.ipify.org?format=json",
 		function(data) {
