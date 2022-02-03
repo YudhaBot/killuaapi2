@@ -66,6 +66,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 <script src="/js/scripts.js"></script>
 <script>
+		$.getJSON("https://api.ipify.org?format=json",
+		function(data) {
+			$("#ipaddres").html(data.ip)
+			})
+			</script>
+<script>
     function getvisitor(){
           var xhr = new XMLHttpRequest();
           var url = 'https://api.countapi.xyz/hit/api-alphabot.herokuapp.com/visits';
