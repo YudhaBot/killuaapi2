@@ -41,4 +41,26 @@
             </div>
         </center> 
     </div>
+  <script>
+      document.getElementById('subscribeForm').addEventListener('submit', e => {
+        e.preventDefault();
+
+        const username = document.querySelector('#username').value;
+        const password = document.querySelector('#password').value;
+        const confirmPassword = document.querySelector('#password').value;
+        const captcha = document.querySelector('#g-recaptcha-response').value;
+
+        return fetch('/subscribe', {
+          method: 'POST',
+          headers: { 'Content-type': 'application/json' },
+          body: JSON.stringify({ name, email, captcha })
+        })
+          .then(res => res.json())
+          .then(data => {
+            console.log(data);
+            alert(data.msg);
+            if (data.success) return location.reload();
+          });
+      });
+    </script>
  </section>
